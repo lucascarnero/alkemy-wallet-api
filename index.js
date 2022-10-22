@@ -8,6 +8,13 @@ require("dotenv").config();
 app.use(logger("dev"));
 app.use(express.json());
 
+/*******************************************************************************
+ * Routes
+ *
+ *******************************************************************************/
+const userRoutes = require("./routes/users");
+app.use("/users", userRoutes);
+
 (async () => {
   try {
     await app.listen(process.env.APP_PORT);
