@@ -47,15 +47,22 @@ const insert = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
-    const { first_name, last_name, email, password } = req.body;
-    const passwordHash = await bcrypt.hash(password, 10);
 
-    const entity = await Model.update(
+    const entity = await Model.findByPk(id);
+
+    if (!entity) return res.sendStatus(404);
+
+    const { first_name, last_name, email, password, points } = req.body;
+    let passwordHash;
+    if (password) passwordHash = await bcrypt.hash(password, 10);
+
+    await Model.update(
       {
         first_name,
         last_name,
         email,
         password: passwordHash,
+        points,
       },
       {
         where: {
