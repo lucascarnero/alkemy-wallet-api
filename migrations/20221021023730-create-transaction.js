@@ -37,6 +37,10 @@ module.exports = {
       },
       to_account_id: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "Accounts",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,

@@ -8,6 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "accountId",
       });
 
+      Transaction.belongsTo(models.Account, {
+        as: "to_acount",
+        foreignKey: "to_account_id",
+      });
+
       Transaction.belongsTo(models.User, {
         as: "user",
         foreignKey: "userId",
@@ -35,7 +40,13 @@ module.exports = (sequelize, DataTypes) => {
           key: "id",
         },
       },
-      to_account_id: DataTypes.INTEGER,
+      to_account_id: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "Accounts",
+          key: "id",
+        },
+      },
     },
     {
       sequelize,
