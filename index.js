@@ -13,7 +13,9 @@ app.use(express.json());
  *
  *******************************************************************************/
 const userRoutes = require("./routes/users");
+const roleRoutes = require("./routes/roles");
 app.use("/users", userRoutes);
+app.use("/roles", roleRoutes);
 
 (async () => {
   try {
