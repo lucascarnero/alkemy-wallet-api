@@ -2,7 +2,9 @@ const { Catalogue: Model } = require("../models");
 
 const getAll = async (req, res) => {
   try {
-    const entities = await Model.findAll();
+    const entities = await Model.findAll({
+      order: [["points", "DESC"]],
+    });
     return res.status(200).json(entities);
   } catch (error) {
     return res.status(500).json(error);
@@ -25,13 +27,12 @@ const getById = async (req, res) => {
 
 const insert = async (req, res) => {
   try {
-    const { creationDate, money, isBlocked, userId } = req.body;
+    const { product_description, image, points } = req.body;
 
     const entity = await Model.create({
-      creationDate,
-      money,
-      isBlocked,
-      userId,
+      product_description,
+      image,
+      points,
     });
 
     return res.status(201).send(entity);
@@ -46,14 +47,13 @@ const update = async (req, res) => {
     const entity = await Model.findByPk(id);
     if (!entity) return res.sendStatus(404);
 
-    const { creationDate, money, isBlocked, userId } = req.body;
+    const { product_description, image, points } = req.body;
 
     await Model.update(
       {
-        creationDate,
-        money,
-        isBlocked,
-        userId,
+        product_description,
+        image,
+        points,
       },
       {
         where: {

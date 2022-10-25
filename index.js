@@ -17,7 +17,7 @@ const accountRoutes = require("./routes/accounts");
 const transactionRoutes = require("./routes/transactions");
 const authRoutes = require("./routes/auth");
 const fixedTermDepositRoutes = require("./routes/fixedtermdeposits");
-const catalogueRoutes = require("../routes/catalogue");
+const catalogueRoutes = require("./routes/catalogues");
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/roles", roleRoutes);
