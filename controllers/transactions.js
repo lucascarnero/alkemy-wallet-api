@@ -12,8 +12,11 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const { id } = req.params;
+    const { userId } = req.user;
 
-    const entity = await Model.findByPk(id);
+    const entity = await Model.findOne({
+      where: { id, userId },
+    });
 
     if (!entity) return res.sendStatus(404);
 

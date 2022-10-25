@@ -13,7 +13,7 @@ const {
 
 router.get("/", isAuthenticated, getByUserId);
 router.post("/", insert);
-router.get("/:id", getById);
+router.get("/:id", isAuthenticated, getById);
 router.put("/:id", update);
 router.delete("/:id", remove);
 
