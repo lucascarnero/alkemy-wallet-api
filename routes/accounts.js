@@ -6,11 +6,13 @@ const {
   update,
   remove,
 } = require("../controllers/accounts");
+const { isAuthenticated } = require("../middlewares/isAuthenticated");
+const { isAdmin } = require("../middlewares/isAdmin");
 
-router.get("/", getAll);
+router.get("/", isAuthenticated, isAdmin, getAll);
 router.post("/", insert);
-router.get("/:id", getById);
-router.put("/:id", update);
-router.delete("/:id", remove);
+router.get("/:id", isAuthenticated, isAdmin, getById);
+router.put("/:id", isAuthenticated, isAdmin, update);
+router.delete("/:id", isAuthenticated, isAdmin, remove);
 
 module.exports = router;
