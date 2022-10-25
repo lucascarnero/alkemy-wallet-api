@@ -8,7 +8,6 @@ const getAll = async (req, res) => {
 
     let page = req.query.page ? Number(req.query.page) : 1;
     if (page <= 0) page = 1;
-
     const offset = (page - 1) * ITEMS_PER_PAGE;
 
     const entities = await Model.findAll({
