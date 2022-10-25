@@ -1,4 +1,4 @@
-const { Account: Model } = require("../models");
+const { Account: Model, Transaction, User } = require("../models");
 
 const getAll = async (req, res) => {
   try {
@@ -87,10 +87,119 @@ const remove = async (req, res) => {
   }
 };
 
+const makeDepositOrTransfer = async (req, res) => {
+  try {
+    // Usuario receptor si es un deposito
+    // Originante si es una transfer
+    const { userId } = req.user;
+    // Cuenta receptora siempre
+    const { accountId } = req.params;
+
+    const { type, concept, amount } = req.body;
+
+    if (type === "topup") {
+      // Deposito
+      // Validar cuenta
+      const destinationAccount = await Model.findOne({
+        where: {
+          userId,
+          id: accountId,
+        },
+      });
+
+      if (!destinationAccount) return res.sendStatus(404);
+
+      // Verifico que la cuenta no este bloqueada
+      if (destinationAccount.isBlocked) return res.sendStatus(403);
+
+      // Depositar el saldo
+      destinationAccount.money += amount;
+      await destinationAccount.save();
+
+      // Registrar transaccion
+      await Transaction.create({
+        amount,
+        concept,
+        type,
+        accountId,
+        to_account_id: accountId,
+        userId,
+        date: new Date().toString(),
+      });
+
+      // Sumar 2% de saldo en puntos al usuario
+      const user = await User.findByPk(userId);
+      const points = Math.ceil(amount * 0.2);
+      user.points += points;
+      await user.save();
+
+      return res.status(200).json({ message: "OK" });
+    } else if (type === "payment") {
+      // Transferencia
+      // Validar cuenta  origen
+      const originationAccount = await Model.findOne({
+        where: {
+          userId,
+        },
+      });
+      if (!originationAccount) return res.sendStatus(404);
+
+      // Validar cuenta receptora
+      const destinationAccount = await Model.findOne({
+        where: {
+          id: accountId,
+        },
+      });
+      if (!destinationAccount) return res.sendStatus(404);
+
+      // Verificar que las cuentas no esten bloqueadas
+      if (originationAccount.isBlocked) return res.sendStatus(403);
+      if (destinationAccount.isBlocked) return res.sendStatus(403);
+
+      // Verificar saldo en cuenta origen
+      if (originationAccount.money < amount) return res.sendStatus(400);
+
+      // Quitar saldo de cuenta origen
+      originationAccount.money =
+        Number(originationAccount.money) - Number(amount);
+      originationAccount.save();
+
+      // Depositar saldo en cuenta destino
+      destinationAccount.money =
+        Number(destinationAccount.money) + Number(amount);
+      await destinationAccount.save();
+
+      // Registrar transaccion
+      await Transaction.create({
+        amount,
+        concept,
+        type,
+        accountId: originationAccount.id,
+        to_account_id: destinationAccount.id,
+        userId,
+        date: new Date().toString(),
+      });
+
+      // Sumar 3% de saldo en puntos al usuario
+      const user = await User.findByPk(userId);
+      const points = Math.ceil(amount * 0.3);
+      user.points += points;
+      await user.save();
+
+      return res.status(200).json({ message: "OK" });
+    } else {
+      return res.status(400).json({ message: "Tipo de transaccion no valido" });
+    }
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   insert,
   update,
   remove,
+  makeDepositOrTransfer,
 };
