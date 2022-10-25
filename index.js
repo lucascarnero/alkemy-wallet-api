@@ -17,12 +17,14 @@ const accountRoutes = require("./routes/accounts");
 const transactionRoutes = require("./routes/transactions");
 const authRoutes = require("./routes/auth");
 const fixedTermDepositRoutes = require("./routes/fixedtermdeposits");
+const catalogueRoutes = require("../routes/catalogue");
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/roles", roleRoutes);
 app.use("/accounts", accountRoutes);
 app.use("/transactions", transactionRoutes);
 app.use("/fixeddeposits", fixedTermDepositRoutes);
+app.use("/catalogue", catalogueRoutes);
 
 (async () => {
   try {
