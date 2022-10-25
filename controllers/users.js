@@ -1,4 +1,4 @@
-const { User: Model } = require("../models/");
+const { User: Model, Account } = require("../models/");
 const bcrypt = require("bcrypt");
 
 const getAll = async (req, res) => {
@@ -96,10 +96,74 @@ const remove = async (req, res) => {
   }
 };
 
+const blockAccount = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const { accountId } = req.params;
+
+    const entity = await Account.findOne({
+      where: {
+        userId,
+        id: accountId,
+      },
+    });
+    if (!entity) return res.sendStatus(404);
+
+    await Account.update(
+      {
+        isBlocked: true,
+      },
+      {
+        where: {
+          userId,
+          id: accountId,
+        },
+      }
+    );
+
+    return res.status(200).json({ message: "OK" });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+const unblockAccount = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const { accountId } = req.params;
+
+    const entity = await Account.findOne({
+      where: {
+        userId,
+        id: accountId,
+      },
+    });
+    if (!entity) return res.sendStatus(404);
+
+    await Account.update(
+      {
+        isBlocked: false,
+      },
+      {
+        where: {
+          userId,
+          id: accountId,
+        },
+      }
+    );
+
+    return res.status(200).json({ message: "OK" });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   insert,
   update,
   remove,
+  blockAccount,
+  unblockAccount,
 };

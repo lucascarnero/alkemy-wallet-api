@@ -5,6 +5,8 @@ const {
   insert,
   update,
   remove,
+  blockAccount,
+  unblockAccount,
 } = require("../controllers/users");
 const { isAuthenticated } = require("../middlewares/isAuthenticated");
 const { isAdmin } = require("../middlewares/isAdmin");
@@ -14,5 +16,8 @@ router.post("/", insert);
 router.get("/:id", getById);
 router.put("/:id", update);
 router.delete("/:id", isAuthenticated, isAdmin, remove);
+
+router.patch("/block/:accountId", isAuthenticated, blockAccount);
+router.patch("/unblock/:accountId", isAuthenticated, unblockAccount);
 
 module.exports = router;
