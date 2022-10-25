@@ -1,9 +1,28 @@
 const { Account: Model, Transaction, User } = require("../models");
+const { ITEMS_PER_PAGE } = process.env;
 
 const getAll = async (req, res) => {
   try {
-    const entities = await Model.findAll();
-    return res.status(200).json(entities);
+    const total = await Model.count();
+
+    let page = req.query.page ? Number(req.query.page) : 1;
+    if (page <= 0) page = 1;
+
+    const offset = (page - 1) * ITEMS_PER_PAGE;
+
+    const entities = await Model.findAll({
+      limit: Number(ITEMS_PER_PAGE),
+      offset,
+    });
+
+    const response = {
+      previousPage: page == 1 ? null : `/accounts/?page=${page - 1}`,
+      nextPage:
+        total > page * ITEMS_PER_PAGE ? `/accounts/?page=${page + 1}` : null,
+      data: entities,
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
     return res.status(500).json(error);
   }
