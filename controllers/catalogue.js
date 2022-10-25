@@ -1,4 +1,5 @@
-const { Catalogue: Model } = require("../models");
+const { Catalogue: Model, User } = require("../models");
+const { Op } = require("sequelize");
 
 const getAll = async (req, res) => {
   try {
@@ -87,10 +88,36 @@ const remove = async (req, res) => {
   }
 };
 
+const getByUserPoints = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const user = await User.findByPk(userId);
+    if (!user) return res.sendStatus(400);
+
+    const userPoints = Number(user.points);
+
+    console.log(userPoints);
+
+    const entities = await Model.findAll({
+      where: {
+        points: {
+          [Op.lte]: userPoints,
+        },
+      },
+    });
+
+    return res.status(200).json(entities);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   insert,
   update,
   remove,
+  getByUserPoints,
 };
