@@ -16,11 +16,13 @@ const roleRoutes = require("./routes/roles");
 const accountRoutes = require("./routes/accounts");
 const transactionRoutes = require("./routes/transactions");
 const authRoutes = require("./routes/auth");
+const fixedTermDepositRoutes = require("./routes/fixedtermdeposits");
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/roles", roleRoutes);
 app.use("/accounts", accountRoutes);
 app.use("/transactions", transactionRoutes);
+app.use("/fixeddeposit", fixedTermDepositRoutes);
 
 (async () => {
   try {
