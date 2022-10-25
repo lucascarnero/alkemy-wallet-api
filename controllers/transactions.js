@@ -23,6 +23,23 @@ const getById = async (req, res) => {
   }
 };
 
+const getByUserId = async (req, res) => {
+  try {
+    const { userId } = req.user;
+
+    const entities = await Model.findAll({
+      where: {
+        userId,
+      },
+      order: [["date", "DESC"]],
+    });
+
+    return res.status(200).json(entities);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 const insert = async (req, res) => {
   try {
     const { amount, concept, date, type, accountId, userId, to_account_id } =
@@ -90,6 +107,7 @@ const remove = async (req, res) => {
 module.exports = {
   getAll,
   getById,
+  getByUserId,
   insert,
   update,
   remove,
