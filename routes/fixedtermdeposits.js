@@ -5,12 +5,14 @@ const {
   insert,
   update,
   remove,
-} = require("../controllers/accounts");
+} = require("../controllers/fixedtermdeposits");
+const { isAuthenticated } = require("../middlewares/isAuthenticated");
+const { isAdmin } = require("../middlewares/isAdmin");
 
-router.get("/", getAll);
-router.post("/", insert);
-router.get("/:id", getById);
-router.put("/:id", update);
-router.delete("/:id", remove);
+router.get("/", isAuthenticated, getAll);
+router.post("/", isAuthenticated, insert);
+router.get("/:id", isAuthenticated, getById);
+router.put("/:id", isAuthenticated, isAdmin, update);
+router.delete("/:id", isAuthenticated, isAdmin, remove);
 
 module.exports = router;

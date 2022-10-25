@@ -22,7 +22,7 @@ app.use("/users", userRoutes);
 app.use("/roles", roleRoutes);
 app.use("/accounts", accountRoutes);
 app.use("/transactions", transactionRoutes);
-app.use("/fixeddeposit", fixedTermDepositRoutes);
+app.use("/fixeddeposits", fixedTermDepositRoutes);
 
 (async () => {
   try {
