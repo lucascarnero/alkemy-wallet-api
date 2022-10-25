@@ -7,6 +7,7 @@ const {
   remove,
   blockAccount,
   unblockAccount,
+  exchangeProduct,
 } = require("../controllers/users");
 const { isAuthenticated } = require("../middlewares/isAuthenticated");
 const { isAdmin } = require("../middlewares/isAdmin");
@@ -19,5 +20,7 @@ router.delete("/:id", isAuthenticated, isAdmin, remove);
 
 router.patch("/block/:accountId", isAuthenticated, blockAccount);
 router.patch("/unblock/:accountId", isAuthenticated, unblockAccount);
+
+router.patch("/product/:productId", isAuthenticated, exchangeProduct);
 
 module.exports = router;

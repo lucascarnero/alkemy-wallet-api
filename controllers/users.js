@@ -1,4 +1,4 @@
-const { User: Model, Account } = require("../models/");
+const { User: Model, Account, Catalogue } = require("../models/");
 const bcrypt = require("bcrypt");
 
 const getAll = async (req, res) => {
@@ -158,6 +158,31 @@ const unblockAccount = async (req, res) => {
   }
 };
 
+const exchangeProduct = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const { productId } = req.params;
+
+    const user = await Model.findByPk(userId);
+    if (!user) return res.sendStatus(400);
+
+    const catalogueItem = await Catalogue.findByPk(productId);
+    if (!catalogueItem) return res.sendStatus(404);
+
+    // Validacion de puntos
+    if (user.points < catalogueItem.points) return res.sendStatus(403);
+
+    user.points = Number(user.points) - Number(catalogueItem.points);
+
+    await user.save();
+
+    return res.status(200).json({ message: "OK" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -166,4 +191,5 @@ module.exports = {
   remove,
   blockAccount,
   unblockAccount,
+  exchangeProduct,
 };
