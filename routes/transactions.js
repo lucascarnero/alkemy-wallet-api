@@ -14,7 +14,7 @@ const {
 router.get("/", isAuthenticated, getByUserId);
 router.post("/", insert);
 router.get("/:id", isAuthenticated, getById);
-router.put("/:id", update);
-router.delete("/:id", remove);
+router.put("/:id", isAuthenticated, isAdmin, update);
+router.delete("/:id", isAuthenticated, isAdmin, remove);
 
 module.exports = router;

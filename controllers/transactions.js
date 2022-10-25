@@ -74,7 +74,15 @@ const update = async (req, res) => {
       req.body;
 
     await Model.update(
-      {},
+      {
+        amount,
+        concept,
+        date,
+        type,
+        accountId,
+        userId,
+        to_account_id,
+      },
       {
         where: {
           id,
