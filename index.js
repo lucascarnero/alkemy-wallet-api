@@ -15,6 +15,8 @@ const userRoutes = require("./routes/users");
 const roleRoutes = require("./routes/roles");
 const accountRoutes = require("./routes/accounts");
 const transactionRoutes = require("./routes/transactions");
+const authRoutes = require("./routes/auth");
+app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/roles", roleRoutes);
 app.use("/accounts", accountRoutes);
