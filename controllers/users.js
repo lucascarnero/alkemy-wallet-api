@@ -101,7 +101,7 @@ const remove = async (req, res, next) => {
     const { id } = req.params;
 
     const entity = await Model.findByPk(id);
-    if (!entity) throw new Error("No encontrado", 404);
+    if (!entity) throw new CustomError("No encontrado", 404);
 
     await Model.destroy({
       where: {
@@ -157,7 +157,7 @@ const unblockAccount = async (req, res, next) => {
         id: accountId,
       },
     });
-    if (!entity) throw new Error("No encontrado", 404);
+    if (!entity) throw new CustomError("No encontrado", 404);
 
     await Account.update(
       {
