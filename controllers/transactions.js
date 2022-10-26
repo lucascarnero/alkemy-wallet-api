@@ -1,7 +1,8 @@
 const { Transaction: Model } = require("../models");
 const { ITEMS_PER_PAGE } = process.env;
+const CustomError = require("../helpers/customerror");
 
-const getAll = async (req, res) => {
+const getAll = async (req, res, next) => {
   try {
     const total = await Model.count();
 
@@ -26,11 +27,11 @@ const getAll = async (req, res) => {
 
     return res.status(200).json(response);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const getById = async (req, res) => {
+const getById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { userId } = req.user;
@@ -39,15 +40,15 @@ const getById = async (req, res) => {
       where: { id, userId },
     });
 
-    if (!entity) return res.sendStatus(404);
+    if (!entity) throw new CustomError("No encontrado", 404);
 
     return res.status(200).json(entity);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const getByUserId = async (req, res) => {
+const getByUserId = async (req, res, next) => {
   try {
     const { userId } = req.user;
     const total = await Model.count({
@@ -80,11 +81,11 @@ const getByUserId = async (req, res) => {
 
     return res.status(200).json(response);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const insert = async (req, res) => {
+const insert = async (req, res, next) => {
   try {
     const { amount, concept, date, type, accountId, userId, to_account_id } =
       req.body;
@@ -101,15 +102,15 @@ const insert = async (req, res) => {
 
     return res.status(201).send(entity);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const update = async (req, res) => {
+const update = async (req, res, next) => {
   try {
     const { id } = req.params;
     const entity = await Model.findByPk(id);
-    if (!entity) return res.sendStatus(404);
+    if (!entity) throw new CustomError("No encontrado", 404);
 
     const { amount, concept, date, type, accountId, userId, to_account_id } =
       req.body;
@@ -133,16 +134,16 @@ const update = async (req, res) => {
 
     return res.status(200).send(entity);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const remove = async (req, res) => {
+const remove = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const entity = await Model.findByPk(id);
-    if (!entity) return res.sendStatus(404);
+    if (!entity) throw new CustomError("No encontrado", 404);
 
     await Model.destroy({
       where: {
@@ -152,7 +153,7 @@ const remove = async (req, res) => {
 
     return res.status(200).json(entity);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
