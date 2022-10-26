@@ -1,7 +1,8 @@
 const { Account: Model, Transaction, User } = require("../models");
 const { ITEMS_PER_PAGE } = process.env;
+const CustomError = require("../helpers/customerror");
 
-const getAll = async (req, res) => {
+const getAll = async (req, res, next) => {
   try {
     const total = await Model.count();
 
@@ -24,25 +25,25 @@ const getAll = async (req, res) => {
 
     return res.status(200).json(response);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const getById = async (req, res) => {
+const getById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const entity = await Model.findByPk(id);
 
-    if (!entity) return res.sendStatus(404);
+    if (!entity) throw new Error("No encontrado", 404);
 
     return res.status(200).json(entity);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const insert = async (req, res) => {
+const insert = async (req, res, next) => {
   try {
     const { creationDate, money, isBlocked, userId } = req.body;
 
@@ -55,15 +56,15 @@ const insert = async (req, res) => {
 
     return res.status(201).send(entity);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const update = async (req, res) => {
+const update = async (req, res, next) => {
   try {
     const { id } = req.params;
     const entity = await Model.findByPk(id);
-    if (!entity) return res.sendStatus(404);
+    if (!entity) throw new CustomError("No encontrado", 404);
 
     const { creationDate, money, isBlocked, userId } = req.body;
 
@@ -83,16 +84,16 @@ const update = async (req, res) => {
 
     return res.status(200).send(entity);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const remove = async (req, res) => {
+const remove = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const entity = await Model.findByPk(id);
-    if (!entity) return res.sendStatus(404);
+    if (!entity) throw new CustomError("No encontrado", 404);
 
     await Model.destroy({
       where: {
@@ -102,11 +103,11 @@ const remove = async (req, res) => {
 
     return res.status(200).json(entity);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const makeDepositOrTransfer = async (req, res) => {
+const makeDepositOrTransfer = async (req, res, next) => {
   try {
     // Usuario receptor si es un deposito
     // Originante si es una transfer
@@ -126,10 +127,12 @@ const makeDepositOrTransfer = async (req, res) => {
         },
       });
 
-      if (!destinationAccount) return res.sendStatus(404);
+      if (!destinationAccount)
+        throw new CustomError("No se encontro cuenta destino", 404);
 
       // Verifico que la cuenta no este bloqueada
-      if (destinationAccount.isBlocked) return res.sendStatus(403);
+      if (destinationAccount.isBlocked)
+        throw new CustomError("La cuenta destino esta bloqueada", 403);
 
       // Depositar el saldo
       destinationAccount.money += amount;
@@ -152,7 +155,9 @@ const makeDepositOrTransfer = async (req, res) => {
       user.points += points;
       await user.save();
 
-      return res.status(200).json({ message: "OK" });
+      return res
+        .status(200)
+        .json(new CustomError("Deposito realizado exitosamente", 200));
     } else if (type === "payment") {
       // Transferencia
       // Validar cuenta  origen
@@ -161,7 +166,8 @@ const makeDepositOrTransfer = async (req, res) => {
           userId,
         },
       });
-      if (!originationAccount) return res.sendStatus(404);
+      if (!originationAccount)
+        throw new CustomError("No se encontro la cuenta origen", 404);
 
       // Validar cuenta receptora
       const destinationAccount = await Model.findOne({
@@ -169,14 +175,21 @@ const makeDepositOrTransfer = async (req, res) => {
           id: accountId,
         },
       });
-      if (!destinationAccount) return res.sendStatus(404);
+      if (!destinationAccount)
+        throw new CustomError("No se encontro la cuenta destino", 404);
 
       // Verificar que las cuentas no esten bloqueadas
-      if (originationAccount.isBlocked) return res.sendStatus(403);
-      if (destinationAccount.isBlocked) return res.sendStatus(403);
+      if (originationAccount.isBlocked)
+        throw new CustomError("La cuenta origen esta bloqueada", 403);
+      if (destinationAccount.isBlocked)
+        throw new CustomError("La cuenta destino esta bloqueada", 403);
 
       // Verificar saldo en cuenta origen
-      if (originationAccount.money < amount) return res.sendStatus(400);
+      if (originationAccount.money < amount)
+        throw new CustomError(
+          "La cuenta origen no tiene suficiente saldo",
+          400
+        );
 
       // Quitar saldo de cuenta origen
       originationAccount.money =
@@ -205,12 +218,14 @@ const makeDepositOrTransfer = async (req, res) => {
       user.points += points;
       await user.save();
 
-      return res.status(200).json({ message: "OK" });
+      return res
+        .status(200)
+        .json(new CustomError("Transferencia realizada exitosamente", 200));
     } else {
-      return res.status(400).json({ message: "Tipo de transaccion no valido" });
+      throw new CustomError("Tipo de transaccion no valido", 400);
     }
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
