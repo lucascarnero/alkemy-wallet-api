@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const CustomError = require("../helpers/customerror");
 const { ITEMS_PER_PAGE } = process.env;
 
-const getAll = async (req, res) => {
+const getAll = async (req, res, next) => {
   try {
     const total = await Model.count();
 
@@ -25,8 +25,7 @@ const getAll = async (req, res) => {
 
     return res.status(200).json(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
