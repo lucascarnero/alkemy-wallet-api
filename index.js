@@ -1,6 +1,6 @@
 const express = require("express");
 const logger = require("morgan");
-
+const { errorHandler } = require("./middlewares/errorHandler");
 const app = express();
 
 require("dotenv").config();
@@ -25,6 +25,9 @@ app.use("/accounts", accountRoutes);
 app.use("/transactions", transactionRoutes);
 app.use("/fixeddeposits", fixedTermDepositRoutes);
 app.use("/catalogue", catalogueRoutes);
+
+// Middleware
+app.use(errorHandler);
 
 (async () => {
   try {

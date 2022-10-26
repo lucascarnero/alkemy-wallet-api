@@ -1,5 +1,6 @@
 const { User: Model, Account, Catalogue } = require("../models/");
 const bcrypt = require("bcrypt");
+const CustomError = require("../helpers/customerror");
 const { ITEMS_PER_PAGE } = process.env;
 
 const getAll = async (req, res) => {
@@ -24,25 +25,26 @@ const getAll = async (req, res) => {
 
     return res.status(200).json(response);
   } catch (error) {
+    console.log(error);
     return res.status(500).json(error);
   }
 };
 
-const getById = async (req, res) => {
+const getById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const entity = await Model.findByPk(id);
 
-    if (!entity) return res.sendStatus(404);
+    if (!entity) throw new CustomError("Usuario inexistente", 404);
 
     return res.status(200).json(entity);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const insert = async (req, res) => {
+const insert = async (req, res, next) => {
   try {
     const { first_name, last_name, email, password, points } = req.body;
     const passwordHash = await bcrypt.hash(password, 10);
@@ -58,17 +60,17 @@ const insert = async (req, res) => {
 
     return res.status(201).send(entity);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const update = async (req, res) => {
+const update = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const entity = await Model.findByPk(id);
 
-    if (!entity) return res.sendStatus(404);
+    if (!entity) throw new CustomError("No encontrado", 404);
 
     const { first_name, last_name, email, password, points } = req.body;
     let passwordHash;
@@ -91,16 +93,16 @@ const update = async (req, res) => {
 
     return res.status(200).send(entity);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const remove = async (req, res) => {
+const remove = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const entity = await Model.findByPk(id);
-    if (!entity) return res.sendStatus(404);
+    if (!entity) throw new Error("No encontrado", 404);
 
     await Model.destroy({
       where: {
@@ -110,11 +112,11 @@ const remove = async (req, res) => {
 
     return res.status(200).json(entity);
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const blockAccount = async (req, res) => {
+const blockAccount = async (req, res, next) => {
   try {
     const { userId } = req.user;
     const { accountId } = req.params;
@@ -125,7 +127,7 @@ const blockAccount = async (req, res) => {
         id: accountId,
       },
     });
-    if (!entity) return res.sendStatus(404);
+    if (!entity) throw new CustomError("No encontrado", 404);
 
     await Account.update(
       {
@@ -141,11 +143,11 @@ const blockAccount = async (req, res) => {
 
     return res.status(200).json({ message: "OK" });
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const unblockAccount = async (req, res) => {
+const unblockAccount = async (req, res, next) => {
   try {
     const { userId } = req.user;
     const { accountId } = req.params;
@@ -156,7 +158,7 @@ const unblockAccount = async (req, res) => {
         id: accountId,
       },
     });
-    if (!entity) return res.sendStatus(404);
+    if (!entity) throw new Error("No encontrado", 404);
 
     await Account.update(
       {
@@ -172,23 +174,24 @@ const unblockAccount = async (req, res) => {
 
     return res.status(200).json({ message: "OK" });
   } catch (error) {
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
-const exchangeProduct = async (req, res) => {
+const exchangeProduct = async (req, res, next) => {
   try {
     const { userId } = req.user;
     const { productId } = req.params;
 
     const user = await Model.findByPk(userId);
-    if (!user) return res.sendStatus(400);
+    if (!user) throw new CustomError("Usuario inexistente", 400);
 
     const catalogueItem = await Catalogue.findByPk(productId);
-    if (!catalogueItem) return res.sendStatus(404);
+    if (!catalogueItem) throw new CustomError("Producto inexistente", 400);
 
     // Validacion de puntos
-    if (user.points < catalogueItem.points) return res.sendStatus(403);
+    if (user.points < catalogueItem.points)
+      throw new CustomError("No dispone de suficientes puntos", 403);
 
     user.points = Number(user.points) - Number(catalogueItem.points);
 
@@ -196,8 +199,7 @@ const exchangeProduct = async (req, res) => {
 
     return res.status(200).json({ message: "OK" });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json(error);
+    next(error);
   }
 };
 
