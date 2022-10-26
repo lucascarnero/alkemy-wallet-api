@@ -1,11 +1,17 @@
+const CustomError = require("../helpers/customerror");
+
 const { ROLE_ADMIN_ID } = process.env;
 
 const isAdmin = (req, res, next) => {
-  const { roleId } = req.user;
+  try {
+    const { roleId } = req.user;
 
-  if (roleId != ROLE_ADMIN_ID) return res.sendStatus(403);
+    if (roleId != ROLE_ADMIN_ID) throw new CustomError("No autorizado", 403);
 
-  next();
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {
