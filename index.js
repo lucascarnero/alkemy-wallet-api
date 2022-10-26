@@ -1,6 +1,8 @@
 const express = require("express");
 const logger = require("morgan");
 const { errorHandler } = require("./middlewares/errorHandler");
+const swaggerUi = require("swagger-ui-express");
+const docs = require("./docs");
 const app = express();
 
 require("dotenv").config();
@@ -26,6 +28,8 @@ app.use("/transactions", transactionRoutes);
 app.use("/fixeddeposits", fixedTermDepositRoutes);
 app.use("/catalogue", catalogueRoutes);
 
+// Swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(docs));
 // Middleware
 app.use(errorHandler);
 
