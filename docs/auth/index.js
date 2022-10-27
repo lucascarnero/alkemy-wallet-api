@@ -24,7 +24,7 @@ module.exports = {
             },
           },
         },
-        404: {
+        401: {
           description: "Combinacion de usuario o contrasena no encontrada",
           content: {
             "application/json": {
@@ -39,6 +39,11 @@ module.exports = {
   },
   "/auth/me": {
     get: {
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       tags: ["Authentication"],
       description: "Obener la informacion del usuario que inicio la sesion",
       parameters: [],
