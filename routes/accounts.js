@@ -11,7 +11,7 @@ const { isAuthenticated } = require("../middlewares/isAuthenticated");
 const { isAdmin } = require("../middlewares/isAdmin");
 
 router.get("/", isAuthenticated, isAdmin, getAll);
-router.post("/", insert);
+router.post("/", isAuthenticated, insert);
 router.get("/:id", isAuthenticated, isAdmin, getById);
 router.post("/:accountId", isAuthenticated, makeDepositOrTransfer);
 router.put("/:id", isAuthenticated, isAdmin, update);
