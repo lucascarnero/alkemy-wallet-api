@@ -253,4 +253,153 @@ module.exports = {
       },
     },
   },
+  "/users/block/{accountId}": {
+    patch: {
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+      tags: ["Users"],
+      summary: "Bloquear una cuenta del usuario",
+      description:
+        "Bloquear una cuenta del usuario, evitando que sea utilizada",
+      parameters: [
+        {
+          name: "accountId",
+          in: "path",
+          required: true,
+          type: "number",
+        },
+      ],
+      responses: {
+        200: {
+          description: "Cuenta bloqueada satisfactoriamente",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/OK",
+              },
+            },
+          },
+        },
+        404: {
+          description: "No se encuentra la cuenta que se quiere bloquear",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/Error",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  "/users/unblock/{accountId}": {
+    patch: {
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+      tags: ["Users"],
+      summary: "Desbloquear una cuenta del usuario",
+      description:
+        "Desbloquear una cuenta del usuario, permitiendo que sea utilizada",
+      parameters: [
+        {
+          name: "accountId",
+          in: "path",
+          required: true,
+          type: "number",
+        },
+      ],
+      responses: {
+        200: {
+          description: "Cuenta desbloqueada satisfactoriamente",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/OK",
+              },
+            },
+          },
+        },
+        404: {
+          description: "No se encuentra la cuenta que se quiere desbloquear",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/Error",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  "/users/product/{productId}": {
+    patch: {
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+      tags: ["Users"],
+      summary: "Intercambiar puntos por un producto del catalogo",
+      description: "Intercambiar puntos por un producto del catalogo",
+      parameters: [
+        {
+          name: "productId",
+          required: true,
+          in: "path",
+          type: "number",
+          description: "ID del producto que se desea intercambiar",
+        },
+      ],
+      responses: {
+        200: {
+          description: "Puntos intercambiados exitosamente",
+          content: {
+            "application/json": {
+              schemas: {
+                $ref: "#/components/schemas/OK",
+              },
+            },
+          },
+        },
+        400: {
+          description: "Usuario inexistente",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/Error",
+              },
+            },
+          },
+        },
+        400: {
+          description: "Producto inexistente",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/Error",
+              },
+            },
+          },
+        },
+        403: {
+          description: "No se dispone de suficientes puntos",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/Error",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };

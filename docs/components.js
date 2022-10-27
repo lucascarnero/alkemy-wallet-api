@@ -203,6 +203,15 @@ module.exports = {
           },
         },
       },
+      OK: {
+        type: "object",
+        properties: {
+          message: {
+            type: "string",
+            description: "Resultado de la operacion",
+          },
+        },
+      },
     },
     securitySchemes: {
       BearerAuth: {
