@@ -5,6 +5,7 @@ const tags = require("./tags");
 
 const rolesDoc = require("./roles");
 const authDoc = require("./auth");
+const userDoc = require("./users");
 
 module.exports = {
   ...basicInfo,
@@ -14,5 +15,6 @@ module.exports = {
   paths: {
     ...rolesDoc,
     ...authDoc,
+    ...userDoc,
   },
 };

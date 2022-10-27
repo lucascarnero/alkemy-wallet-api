@@ -3,6 +3,7 @@ module.exports = {
     post: {
       tags: ["Authentication"],
       description: "Obtener un token JWT para autenticarse en el sistema",
+      summary: "Iniciar una sesion",
       parameters: [],
       requestBody: {
         content: {
@@ -45,6 +46,7 @@ module.exports = {
         },
       ],
       tags: ["Authentication"],
+      summary: "Obtener informacion del usuario loggeado",
       description: "Obener la informacion del usuario que inicio la sesion",
       parameters: [],
       responses: {

@@ -1,31 +1,26 @@
 module.exports = {
-  "/roles": {
+  "/users": {
     post: {
-      security: [
-        {
-          BearerAuth: [],
-        },
-      ],
-      tags: ["Roles"],
-      description: "Crear un rol",
-      summary: "Crear un rol",
+      tags: ["Users"],
+      description: "Crear un usuario",
+      summary: "Crear un usuario",
       parameters: [],
       requestBody: {
         content: {
           "application/json": {
             schema: {
-              $ref: "#/components/schemas/Role",
+              $ref: "#/components/schemas/User",
             },
           },
         },
       },
       responses: {
         201: {
-          description: "Rol creado exitosamente",
+          description: "Usuario creado exitosamente",
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/User",
               },
             },
           },
@@ -42,6 +37,16 @@ module.exports = {
         },
         403: {
           description: "Acceso prohibido",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/Error",
+              },
+            },
+          },
+        },
+        500: {
+          description: "Error de servidor",
           content: {
             "application/json": {
               schema: {
@@ -59,9 +64,9 @@ module.exports = {
         },
       ],
 
-      tags: ["Roles"],
-      description: "Listar todos los roles",
-      summary: "Listar todos los roles",
+      tags: ["Users"],
+      description: "Listar todos los usuarios",
+      summary: "Listar todos los usuarios",
       parameters: [],
       responses: {
         200: {
@@ -69,7 +74,7 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/User",
               },
             },
           },
@@ -85,7 +90,7 @@ module.exports = {
           },
         },
         403: {
-          description: "Acceso prohibido",
+          description: "Sin acceso de administrador",
           content: {
             "application/json": {
               schema: {
@@ -97,23 +102,17 @@ module.exports = {
       },
     },
   },
-  "/role/{id}": {
+  "/users/{id}": {
     get: {
-      security: [
-        {
-          BearerAuth: [],
-        },
-      ],
-
-      tags: ["Roles"],
-      description: "Ver detalle de un rol",
-      summary: "Ver detalle de un rol",
+      tags: ["Users"],
+      description: "Ver detalle de un usuario",
+      summary: "Ver detalle de un usuario",
       parameters: [
         {
           name: "id",
           in: "path",
           required: true,
-          description: "ID del rol",
+          description: "ID del usuario",
         },
       ],
       responses: {
@@ -122,7 +121,7 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/User",
               },
             },
           },
@@ -150,15 +149,9 @@ module.exports = {
       },
     },
     put: {
-      security: [
-        {
-          BearerAuth: [],
-        },
-      ],
-
-      tags: ["Roles"],
-      description: "Modificar un rol existente",
-      summary: "Modificar un rol existente",
+      tags: ["Users"],
+      summary: "Modificar un usuario existente",
+      description: "Modificar un usuario existente",
       parameters: [
         {
           name: "id",
@@ -171,7 +164,7 @@ module.exports = {
         content: {
           "application/json": {
             schema: {
-              $ref: "#/components/schemas/Role",
+              $ref: "#/components/schemas/User",
             },
           },
         },
@@ -182,7 +175,7 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/User",
               },
             },
           },
@@ -215,25 +208,24 @@ module.exports = {
           BearerAuth: [],
         },
       ],
-
-      tags: ["Roles"],
-      description: "Eliminar un rol",
-      summary: "Eliminar un rol",
+      summary: "Eliminar un usuario",
+      tags: ["Users"],
+      description: "Elimina un usuario",
       parameters: [
         {
           name: "id",
           in: "path",
           required: true,
-          description: "ID del rol",
+          description: "ID del usuario",
         },
       ],
       responses: {
         200: {
-          description: "Operacion exitosa",
+          description: "Eliminacion exitosa",
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/User",
               },
             },
           },
