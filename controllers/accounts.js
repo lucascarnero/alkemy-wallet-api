@@ -45,7 +45,8 @@ const getById = async (req, res, next) => {
 
 const insert = async (req, res, next) => {
   try {
-    const { creationDate, money, isBlocked, userId } = req.body;
+    const { userId } = req.user;
+    const { creationDate, money, isBlocked } = req.body;
 
     const entity = await Model.create({
       creationDate,
