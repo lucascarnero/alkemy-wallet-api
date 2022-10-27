@@ -1,6 +1,11 @@
 module.exports = {
   "/roles": {
     post: {
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
       tags: ["Roles"],
       description: "Crear un rol",
       parameters: [],
@@ -47,6 +52,12 @@ module.exports = {
       },
     },
     get: {
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+
       tags: ["Roles"],
       description: "Listar todos los roles",
       parameters: [],
@@ -86,6 +97,12 @@ module.exports = {
   },
   "/role/{id}": {
     get: {
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+
       tags: ["Roles"],
       description: "Ver detalle de un rol",
       parameters: [
@@ -130,6 +147,12 @@ module.exports = {
       },
     },
     put: {
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+
       tags: ["Roles"],
       description: "Modificar un rol existente",
       parameters: [
@@ -183,6 +206,12 @@ module.exports = {
       },
     },
     delete: {
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+
       tags: ["Roles"],
       description: "Elimina un rol",
       parameters: [
