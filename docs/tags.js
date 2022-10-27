@@ -12,9 +12,9 @@ module.exports = {
     {
       name: "Accounts",
     },
-    {
-      name: "Catalogues",
-    },
+    // {
+    //   name: "Catalogues",
+    // },
     {
       name: "Transactions",
     },

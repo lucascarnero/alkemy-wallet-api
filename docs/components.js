@@ -26,27 +26,27 @@ module.exports = {
           },
         },
       },
-      Catalogue: {
-        type: "object",
-        properties: {
-          product_description: {
-            type: "string",
-            description: "Descripcion del producto",
-            example: "Automovil Lamborghini Diablo",
-          },
-          image: {
-            type: "string",
-            description: "URL hacia la imagen representativa del producto",
-            example: "https://www.example.com/lamborghini.jpg",
-          },
-          points: {
-            type: "number",
-            description:
-              "Cantidad de puntos que se requieren para intercambiar por este producto",
-            example: 2500,
-          },
-        },
-      },
+      // Catalogue: {
+      //   type: "object",
+      //   properties: {
+      //     product_description: {
+      //       type: "string",
+      //       description: "Descripcion del producto",
+      //       example: "Automovil Lamborghini Diablo",
+      //     },
+      //     image: {
+      //       type: "string",
+      //       description: "URL hacia la imagen representativa del producto",
+      //       example: "https://www.example.com/lamborghini.jpg",
+      //     },
+      //     points: {
+      //       type: "number",
+      //       description:
+      //         "Cantidad de puntos que se requieren para intercambiar por este producto",
+      //       example: 2500,
+      //     },
+      //   },
+      // },
       FixedTermDeposit: {
         type: "object",
         properties: {
