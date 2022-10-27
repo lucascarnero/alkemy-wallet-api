@@ -212,6 +212,24 @@ module.exports = {
           },
         },
       },
+      DepositOrTransfer: {
+        type: "object",
+        properties: {
+          type: {
+            type: "string",
+            description:
+              "Tipo de operacion: 'topup' si se hace un deposito; 'payment' si se hace una transferencia",
+          },
+          concept: {
+            type: "string",
+            description: "Descripcion de la operacion",
+          },
+          amount: {
+            type: "number",
+            description: "Cantidad de dinero a depositar o transferir",
+          },
+        },
+      },
     },
     securitySchemes: {
       BearerAuth: {

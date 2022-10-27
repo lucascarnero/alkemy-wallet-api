@@ -6,6 +6,7 @@ const tags = require("./tags");
 const rolesDoc = require("./roles");
 const authDoc = require("./auth");
 const userDoc = require("./users");
+const accountDoc = require("./accounts");
 
 module.exports = {
   ...basicInfo,
@@ -16,5 +17,6 @@ module.exports = {
     ...rolesDoc,
     ...authDoc,
     ...userDoc,
+    ...accountDoc,
   },
 };
