@@ -179,6 +179,30 @@ module.exports = {
           },
         },
       },
+      LoginResult: {
+        type: "object",
+        properties: {
+          accessToken: {
+            type: "string",
+            description:
+              "El token JWT que debera enviarse posteriormente a los endpoints",
+          },
+        },
+      },
+      LoginInput: {
+        type: "object",
+        properties: {
+          email: {
+            type: "string",
+            description:
+              "Correo electronico del usuario que iniciara la sesion",
+          },
+          password: {
+            type: "string",
+            description: "Contrasena del usuario que iniciara la sesion",
+          },
+        },
+      },
     },
   },
 };

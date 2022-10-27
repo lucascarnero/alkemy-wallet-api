@@ -4,11 +4,15 @@ const components = require("./components");
 const tags = require("./tags");
 
 const rolesDoc = require("./roles");
+const authDoc = require("./auth");
 
 module.exports = {
   ...basicInfo,
   ...servers,
   ...components,
   ...tags,
-  ...rolesDoc,
+  paths: {
+    ...rolesDoc,
+    ...authDoc,
+  },
 };
