@@ -7,6 +7,7 @@ const rolesDoc = require("./roles");
 const authDoc = require("./auth");
 const userDoc = require("./users");
 const accountDoc = require("./accounts");
+const fixedDepositDoc = require("./fixedtermdeposits");
 
 module.exports = {
   ...basicInfo,
@@ -18,5 +19,6 @@ module.exports = {
     ...authDoc,
     ...userDoc,
     ...accountDoc,
+    ...fixedDepositDoc,
   },
 };
