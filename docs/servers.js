@@ -1,7 +1,7 @@
 module.exports = {
   servers: [
     {
-      url: "http://localhost:3000",
+      url: "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com",
       description: "Desarrollo",
     },
   ],
