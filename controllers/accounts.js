@@ -45,7 +45,8 @@ const getById = async (req, res, next) => {
 
 const insert = async (req, res, next) => {
   try {
-    const { creationDate, money, isBlocked, userId } = req.body;
+    const { userId } = req.user;
+    const { creationDate, money, isBlocked } = req.body;
 
     const entity = await Model.create({
       creationDate,
@@ -218,9 +219,7 @@ const makeDepositOrTransfer = async (req, res, next) => {
       user.points += points;
       await user.save();
 
-      return res
-        .status(200)
-        .json(new CustomError("Transferencia realizada exitosamente", 200));
+      return res.status(200).json({ message: "OK" });
     } else {
       throw new CustomError("Tipo de transaccion no valido", 400);
     }

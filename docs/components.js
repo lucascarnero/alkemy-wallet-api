@@ -26,27 +26,27 @@ module.exports = {
           },
         },
       },
-      Catalogue: {
-        type: "object",
-        properties: {
-          product_description: {
-            type: "string",
-            description: "Descripcion del producto",
-            example: "Automovil Lamborghini Diablo",
-          },
-          image: {
-            type: "string",
-            description: "URL hacia la imagen representativa del producto",
-            example: "https://www.example.com/lamborghini.jpg",
-          },
-          points: {
-            type: "number",
-            description:
-              "Cantidad de puntos que se requieren para intercambiar por este producto",
-            example: 2500,
-          },
-        },
-      },
+      // Catalogue: {
+      //   type: "object",
+      //   properties: {
+      //     product_description: {
+      //       type: "string",
+      //       description: "Descripcion del producto",
+      //       example: "Automovil Lamborghini Diablo",
+      //     },
+      //     image: {
+      //       type: "string",
+      //       description: "URL hacia la imagen representativa del producto",
+      //       example: "https://www.example.com/lamborghini.jpg",
+      //     },
+      //     points: {
+      //       type: "number",
+      //       description:
+      //         "Cantidad de puntos que se requieren para intercambiar por este producto",
+      //       example: 2500,
+      //     },
+      //   },
+      // },
       FixedTermDeposit: {
         type: "object",
         properties: {
@@ -178,6 +178,63 @@ module.exports = {
             example: 401,
           },
         },
+      },
+      LoginResult: {
+        type: "object",
+        properties: {
+          accessToken: {
+            type: "string",
+            description:
+              "El token JWT que debera enviarse posteriormente a los endpoints",
+          },
+        },
+      },
+      LoginInput: {
+        type: "object",
+        properties: {
+          email: {
+            type: "string",
+            description:
+              "Correo electronico del usuario que iniciara la sesion",
+          },
+          password: {
+            type: "string",
+            description: "Contrasena del usuario que iniciara la sesion",
+          },
+        },
+      },
+      OK: {
+        type: "object",
+        properties: {
+          message: {
+            type: "string",
+            description: "Resultado de la operacion",
+          },
+        },
+      },
+      DepositOrTransfer: {
+        type: "object",
+        properties: {
+          type: {
+            type: "string",
+            description:
+              "Tipo de operacion: 'topup' si se hace un deposito; 'payment' si se hace una transferencia",
+          },
+          concept: {
+            type: "string",
+            description: "Descripcion de la operacion",
+          },
+          amount: {
+            type: "number",
+            description: "Cantidad de dinero a depositar o transferir",
+          },
+        },
+      },
+    },
+    securitySchemes: {
+      BearerAuth: {
+        type: "http",
+        scheme: "bearer",
       },
     },
   },

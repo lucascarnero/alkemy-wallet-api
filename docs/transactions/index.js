@@ -1,31 +1,31 @@
 module.exports = {
-  "/roles": {
+  "/transactions": {
     post: {
       security: [
         {
           BearerAuth: [],
         },
       ],
-      tags: ["Roles"],
-      description: "Crear un rol",
-      summary: "Crear un rol",
+      tags: ["Transactions"],
+      description: "Crear una transaccion",
+      summary: "Crear una transaccion",
       parameters: [],
       requestBody: {
         content: {
           "application/json": {
             schema: {
-              $ref: "#/components/schemas/Role",
+              $ref: "#/components/schemas/Transaction",
             },
           },
         },
       },
       responses: {
         201: {
-          description: "Rol creado exitosamente",
+          description: "Transaccion creada exitosamente",
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/Transaction",
               },
             },
           },
@@ -59,9 +59,9 @@ module.exports = {
         },
       ],
 
-      tags: ["Roles"],
-      description: "Listar todos los roles",
-      summary: "Listar todos los roles",
+      tags: ["Transactions"],
+      description: "Listar todas las transacciones del usuario",
+      summary: "Listar todas las transacciones del usuario",
       parameters: [],
       responses: {
         200: {
@@ -69,7 +69,7 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/Transaction",
               },
             },
           },
@@ -97,7 +97,7 @@ module.exports = {
       },
     },
   },
-  "/role/{id}": {
+  "/transactions/{id}": {
     get: {
       security: [
         {
@@ -105,15 +105,15 @@ module.exports = {
         },
       ],
 
-      tags: ["Roles"],
-      description: "Ver detalle de un rol",
-      summary: "Ver detalle de un rol",
+      tags: ["Transactions"],
+      description: "Ver detalle de una transaccion",
+      summary: "Ver detalle de una transaccion",
       parameters: [
         {
           name: "id",
           in: "path",
           required: true,
-          description: "ID del rol",
+          description: "ID de la transaccion",
         },
       ],
       responses: {
@@ -122,7 +122,7 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/Transaction",
               },
             },
           },
@@ -156,22 +156,22 @@ module.exports = {
         },
       ],
 
-      tags: ["Roles"],
-      description: "Modificar un rol existente",
-      summary: "Modificar un rol existente",
+      tags: ["Transactions"],
+      description: "Modificar una transaccion existente",
+      summary: "Modificar una transaccion",
       parameters: [
         {
           name: "id",
           in: "path",
           required: true,
-          description: "ID del rol",
+          description: "ID de la transaccion",
         },
       ],
       requestBody: {
         content: {
           "application/json": {
             schema: {
-              $ref: "#/components/schemas/Role",
+              $ref: "#/components/schemas/Transaction",
             },
           },
         },
@@ -182,7 +182,7 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/Transaction",
               },
             },
           },
@@ -216,15 +216,15 @@ module.exports = {
         },
       ],
 
-      tags: ["Roles"],
-      description: "Eliminar un rol",
-      summary: "Eliminar un rol",
+      tags: ["Transactions"],
+      description: "Eliminar una transaccion",
+      summary: "Eliminar una transaccion",
       parameters: [
         {
           name: "id",
           in: "path",
           required: true,
-          description: "ID del rol",
+          description: "ID de la transaccion",
         },
       ],
       responses: {
@@ -233,7 +233,7 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/Transaction",
               },
             },
           },

@@ -1,31 +1,31 @@
 module.exports = {
-  "/roles": {
+  "/fixeddeposits": {
     post: {
       security: [
         {
           BearerAuth: [],
         },
       ],
-      tags: ["Roles"],
-      description: "Crear un rol",
-      summary: "Crear un rol",
+      tags: ["FixedTermDeposits"],
+      description: "Crear un deposito a plazo fijo",
+      summary: "Crear un deposito a plazo fijo",
       parameters: [],
       requestBody: {
         content: {
           "application/json": {
             schema: {
-              $ref: "#/components/schemas/Role",
+              $ref: "#/components/schemas/FixedTermDeposit",
             },
           },
         },
       },
       responses: {
         201: {
-          description: "Rol creado exitosamente",
+          description: "Deposito creado exitosamente",
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/FixedTermDeposit",
               },
             },
           },
@@ -59,9 +59,9 @@ module.exports = {
         },
       ],
 
-      tags: ["Roles"],
-      description: "Listar todos los roles",
-      summary: "Listar todos los roles",
+      tags: ["FixedTermDeposits"],
+      description: "Listar todos depositos a plazo fijo del usuario",
+      summary: "Listar depositos",
       parameters: [],
       responses: {
         200: {
@@ -69,7 +69,7 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/FixedTermDeposit",
               },
             },
           },
@@ -97,7 +97,7 @@ module.exports = {
       },
     },
   },
-  "/role/{id}": {
+  "/fixeddeposits/{id}": {
     get: {
       security: [
         {
@@ -105,15 +105,15 @@ module.exports = {
         },
       ],
 
-      tags: ["Roles"],
-      description: "Ver detalle de un rol",
-      summary: "Ver detalle de un rol",
+      tags: ["FixedTermDeposits"],
+      description: "Ver detalle de un deposito",
+      summary: "Ver detalle de un deposito",
       parameters: [
         {
           name: "id",
           in: "path",
           required: true,
-          description: "ID del rol",
+          description: "ID del deposito",
         },
       ],
       responses: {
@@ -122,7 +122,7 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/FixedTermDeposit",
               },
             },
           },
@@ -156,22 +156,22 @@ module.exports = {
         },
       ],
 
-      tags: ["Roles"],
-      description: "Modificar un rol existente",
-      summary: "Modificar un rol existente",
+      tags: ["FixedTermDeposits"],
+      description: "Modificar un deposito a plazo fijo existente",
+      summary: "Modificar un deposito a plazo fijo existente",
       parameters: [
         {
           name: "id",
           in: "path",
           required: true,
-          description: "ID del rol",
+          description: "ID del plazo fijo",
         },
       ],
       requestBody: {
         content: {
           "application/json": {
             schema: {
-              $ref: "#/components/schemas/Role",
+              $ref: "#/components/schemas/FixedTermDeposit",
             },
           },
         },
@@ -182,7 +182,7 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/FixedTermDeposit",
               },
             },
           },
@@ -216,15 +216,15 @@ module.exports = {
         },
       ],
 
-      tags: ["Roles"],
-      description: "Eliminar un rol",
-      summary: "Eliminar un rol",
+      tags: ["FixedTermDeposits"],
+      description: "Eliminar un deposito a plazo fijo",
+      summary: "Eliminar un deposito a plazo fijo",
       parameters: [
         {
           name: "id",
           in: "path",
           required: true,
-          description: "ID del rol",
+          description: "ID del plazo fijo",
         },
       ],
       responses: {
@@ -233,7 +233,7 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/Role",
+                $ref: "#/components/schemas/FixedTermDeposit",
               },
             },
           },
