@@ -116,6 +116,11 @@ module.exports = {
             description: "Contrasena del usuario (se usa al iniciar sesion)",
             example: "abc123",
           },
+          roleId: {
+            type: "number",
+            description: "Rol del usuario. 1=administrador, 2=standard",
+            example: 2
+          },
           points: {
             type: "number",
             description:

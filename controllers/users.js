@@ -46,7 +46,7 @@ const getById = async (req, res, next) => {
 
 const insert = async (req, res, next) => {
   try {
-    const { first_name, last_name, email, password, points } = req.body;
+    const { first_name, last_name, email, password, points, roleId } = req.body;
     const passwordHash = await bcrypt.hash(password, 10);
 
     const entity = await Model.create({
@@ -55,7 +55,7 @@ const insert = async (req, res, next) => {
       email,
       password: passwordHash,
       points,
-      roleId: 2,
+      roleId
     });
 
     return res.status(201).send(entity);
