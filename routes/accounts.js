@@ -12,7 +12,7 @@ const { isAdmin } = require("../middlewares/isAdmin");
 
 router.get("/", isAuthenticated, isAdmin, getAll);
 router.post("/", isAuthenticated, insert);
-router.get("/:id", isAuthenticated, isAdmin, getById);
+router.get("/:id", isAuthenticated, getById);
 router.post("/:accountId", isAuthenticated, makeDepositOrTransfer);
 router.put("/:id", isAuthenticated, isAdmin, update);
 router.delete("/:id", isAuthenticated, isAdmin, remove);
