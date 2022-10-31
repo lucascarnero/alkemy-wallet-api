@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   Account.init(
     {
       creationDate: DataTypes.DATE,
-      money: DataTypes.DECIMAL,
+      money: DataTypes.DECIMAL(10,2),
       isBlocked: DataTypes.BOOLEAN,
       userId: {
         type: DataTypes.INTEGER,
