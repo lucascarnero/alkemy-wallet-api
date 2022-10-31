@@ -136,7 +136,7 @@ const makeDepositOrTransfer = async (req, res, next) => {
         throw new CustomError("La cuenta destino esta bloqueada", 403);
 
       // Depositar el saldo
-      destinationAccount.money += amount;
+      destinationAccount.money = Number(destinationAccount.money) + Number(amount);
       await destinationAccount.save();
 
       // Registrar transaccion
