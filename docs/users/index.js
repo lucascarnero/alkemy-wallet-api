@@ -339,6 +339,62 @@ module.exports = {
       },
     },
   },
+  "/users/resetPassword/{userId}": {
+    patch: {
+      tags: ["Users"],
+      summary: "Resetear contraseña",
+      description: "Resetear la contraseña del usuario",
+      parameters: [
+        {
+          name: "userId",
+          required: true,
+          in: "path",
+          type: "number",
+        }
+      ],
+      requestBody: {
+        content: {
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/ChangePasswordInput"
+            }
+          }
+        }
+      },
+      responses: {
+        200: {
+          description: "La contraseña se reseteo satisfactoriamente",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/OK"
+              }
+            }
+          }
+        },
+        400: {
+          description: "No se especifico el usuario a modificar",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/Error"
+              }
+            }
+          }
+        },
+        404: {
+          description: "Usuario inexistente",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "/users/product/{productId}": {
     patch: {
       security: [

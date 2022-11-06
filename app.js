@@ -3,11 +3,13 @@ const logger = require("morgan");
 const { errorHandler } = require("./middlewares/errorHandler");
 const swaggerUi = require("swagger-ui-express");
 const docs = require("./docs");
+const cors = require("cors");
 const app = express();
 
 require("dotenv").config();
 
 app.use(logger("dev"));
+app.use(cors());
 app.use(express.json());
 
 /*******************************************************************************

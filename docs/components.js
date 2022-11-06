@@ -150,7 +150,7 @@ module.exports = {
           type: {
             type: "string",
             description: "Tipo de transaccion ('topup' o 'payment')",
-            example: "topup",
+            example: "topup|payment",
           },
           accountId: {
             type: "number",
@@ -183,6 +183,16 @@ module.exports = {
             example: 401,
           },
         },
+      },
+      ChangePasswordInput: {
+        type: "object",
+        properties: {
+          password: {
+            type: "string",
+            description: "La nueva contraseña que se quiere establecer",
+            example: "abc123"
+          }
+        }
       },
       LoginResult: {
         type: "object",
@@ -224,6 +234,7 @@ module.exports = {
             type: "string",
             description:
               "Tipo de operacion: 'topup' si se hace un deposito; 'payment' si se hace una transferencia",
+            example: "topup | payment"
           },
           concept: {
             type: "string",

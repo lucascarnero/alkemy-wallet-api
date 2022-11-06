@@ -5,9 +5,9 @@ module.exports = {
     description: "Una sencilla API para la gestion de una billetera virtual",
     version: "1.0.0",
     contact: {
-      name: "Lucas Carnero",
-      email: "l.carnero@lucascarnero.com.ar",
-      url: "https://www.lucascarnero.com.ar",
+      name: "Alkemy",
+      email: "contacto@alkemy.org",
+      url: "https://www.alkemy.org",
     },
   },
 };

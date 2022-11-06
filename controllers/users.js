@@ -29,7 +29,6 @@ const getAll = async (req, res, next) => {
   }
 };
 
-
 const getById = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -55,7 +54,7 @@ const insert = async (req, res, next) => {
       email,
       password: passwordHash,
       points,
-      roleId
+      roleId,
     });
 
     return res.status(201).send(entity);
@@ -203,6 +202,29 @@ const exchangeProduct = async (req, res, next) => {
   }
 };
 
+const resetPassword = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    if (!userId) throw new CustomError("No se especifico el usuario a modificar", 400);
+
+    const entity = await Model.findByPk(userId);
+    if (!entity) throw new CustomError("No se encontro el usuario a modificar", 404);
+
+    const { password } = req.body;
+    const newPasswordHash = await bcrypt.hash(password, 10);
+   
+    entity.password = newPasswordHash;
+
+
+    await entity.save();
+
+    return res.status(200).json({ message: "OK" });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -212,4 +234,5 @@ module.exports = {
   blockAccount,
   unblockAccount,
   exchangeProduct,
+  resetPassword,
 };

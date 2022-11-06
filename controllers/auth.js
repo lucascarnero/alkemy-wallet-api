@@ -15,13 +15,15 @@ const login = async (req, res, next) => {
 
     if (!user) throw new CustomError("No autorizado", 401);
 
-    bcrypt.compare(password, user.password, function (error, result) {
-      if (error || !result) throw new CustomError("No autorizado", 401);
+    const compareResult = await bcrypt.compare(password, user.password);
 
-      const { id, roleId } = user;
+    const { id, roleId } = user;
+    if (compareResult) {
       const accessToken = generateToken({ userId: id, roleId });
       return res.status(200).json({ accessToken });
-    });
+    } else {
+      throw new CustomError("No autorizado", 401);
+    }
   } catch (error) {
     next(error);
   }

@@ -7,4 +7,4 @@ RUN npm install --omit=dev
 
 ADD . .
 
-CMD [ "npm", "start" ]
+CMD npx sequelize-cli db:migrate; npx sequelize-cli db:seed:all; npm start
