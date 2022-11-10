@@ -43,6 +43,23 @@ const getById = async (req, res, next) => {
   }
 };
 
+const getByUserId = async (req, res, next) => {
+  try {
+    const { userId } = req.user;
+    if (!userId) throw new CustomError("Usuario inexistente", 400);
+
+    const entities = await Model.findAll({
+      where: {
+        userId
+      }
+    });
+
+    return res.status(200).json(entities);
+  } catch(error) {
+    next(error);
+  }
+}
+
 const insert = async (req, res, next) => {
   try {
     const { userId } = req.user;
@@ -236,4 +253,5 @@ module.exports = {
   update,
   remove,
   makeDepositOrTransfer,
+  getByUserId
 };
